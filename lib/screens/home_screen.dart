@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../app_res.dart';
+import '../controllers/bluetooth_controller.dart';
+import '../controllers/connection_mode_controller.dart';
 import '../controllers/nav_controller.dart';
+import '../controllers/usb_controller.dart';
 import '../widgets/status_banner.dart';
 import '../widgets/distance_card.dart';
 import '../widgets/danger_overlay.dart';
@@ -15,41 +18,45 @@ class HomeScreen extends GetView<NavController> {
       appBar: AppBar(
         title: const Text(AppRes.appName),
         actions: [
-          Obx(() => Semantics(
-                label: controller.isConnected.value
-                    ? AppRes.labelConnected
-                    : AppRes.labelDisconnected,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppRes.spaceMD, vertical: AppRes.spaceSM),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.circle,
+          Obx(() {
+            final modeCtrl = Get.find<ConnectionModeController>();
+            final usbCtrl  = Get.find<UsbController>();
+            final btCtrl   = Get.find<BluetoothController>();
+            final isConn   = modeCtrl.isUsb
+                ? usbCtrl.connectedIndex.value >= 0
+                : btCtrl.isConnected.value;
+            final label = modeCtrl.isUsb
+                ? (isConn ? AppRes.labelConnected    : AppRes.labelDisconnected)
+                : (isConn ? AppRes.labelBtConnected  : AppRes.labelBtDisconnected);
+            return Semantics(
+              label: label,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppRes.spaceMD, vertical: AppRes.spaceSM),
+                child: Row(
+                  children: [
+                    Icon(Icons.circle,
                         size: 10,
-                        color: controller.isConnected.value
+                        color: isConn
                             ? AppRes.accentSafe
-                            : AppRes.accentDanger,
-                      ),
-                      const SizedBox(width: AppRes.spaceSM),
-                      Text(
-                        controller.isConnected.value
-                            ? AppRes.labelConnected
-                            : AppRes.labelDisconnected,
+                            : AppRes.accentDanger),
+                    const SizedBox(width: AppRes.spaceSM),
+                    Text(label,
                         style: TextStyle(
                           fontFamily: AppRes.fontMono,
                           fontSize: AppRes.fontSM,
-                          color: controller.isConnected.value
+                          color: isConn
                               ? AppRes.accentSafe
                               : AppRes.accentDanger,
-                        ),
-                      ),
-                      const SizedBox(width: AppRes.spaceSM),
-                      const Icon(Icons.power, color: AppRes.textSecondary, size: 18),
-                    ],
-                  ),
+                        )),
+                    const SizedBox(width: AppRes.spaceSM),
+                    const Icon(Icons.power,
+                        color: AppRes.textSecondary, size: 18),
+                  ],
                 ),
-              )),
+              ),
+            );
+          }),
         ],
       ),
       body: Obx(() {

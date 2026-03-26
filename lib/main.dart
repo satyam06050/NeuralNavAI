@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app_res.dart';
 import 'controllers/app_bindings.dart';
+import 'controllers/connection_mode_controller.dart';
 import 'screens/home_screen.dart';
-import 'screens/usb_screen.dart';
+import 'screens/connect_screen.dart';
 import 'screens/settings_screen.dart';
 
 void main() {
@@ -56,25 +57,33 @@ class _RootNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final idx = 0.obs;
-    const screens = [HomeScreen(), UsbScreen(), SettingsScreen()];
+    final screens = [const HomeScreen(), const ConnectScreen(), const SettingsScreen()];
 
     return Obx(() => Scaffold(
           body: IndexedStack(index: idx.value, children: screens),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: idx.value,
             onTap: (i) => idx.value = i,
-            items: const [
-              BottomNavigationBarItem(
+            items: [
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
                 activeIcon: Icon(Icons.home),
                 label: AppRes.tabHome,
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.usb_outlined),
-                activeIcon: Icon(Icons.usb),
+                icon: Obx(() {
+                  final ctrl = Get.find<ConnectionModeController>();
+                  return Icon(ctrl.isUsb
+                      ? Icons.usb_outlined
+                      : Icons.bluetooth_outlined);
+                }),
+                activeIcon: Obx(() {
+                  final ctrl = Get.find<ConnectionModeController>();
+                  return Icon(ctrl.isUsb ? Icons.usb : Icons.bluetooth);
+                }),
                 label: AppRes.tabConnect,
               ),
-              BottomNavigationBarItem(
+              const BottomNavigationBarItem(
                 icon: Icon(Icons.settings_outlined),
                 activeIcon: Icon(Icons.settings),
                 label: AppRes.tabSettings,

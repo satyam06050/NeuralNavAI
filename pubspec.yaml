@@ -37,7 +37,7 @@ dependencies:
   get: ^4.6.6
   usb_serial: ^0.5.2
   permission_handler: ^11.3.1
-
+  flutter_blue_plus: ^1.35.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

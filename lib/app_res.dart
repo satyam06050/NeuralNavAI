@@ -8,7 +8,7 @@ class AppRes {
 
   // ─── ROUTES ──────────────────────────────────────────────
   static const String routeHome     = '/home';
-  static const String routeUsb      = '/usb';
+  static const String routeConnect  = '/connect';
   static const String routeSettings = '/settings';
 
   // ─── COLORS ──────────────────────────────────────────────
@@ -95,6 +95,34 @@ class AppRes {
   static const String labelWaiting      = 'Waiting for data...';
   static const String labelNone         = 'None';
 
+  // ─── BLUETOOTH CONFIG ────────────────────────────────────
+  static const String   btDeviceName      = 'HC-05';
+  static const String   btParseDelim      = ',';
+  static const String   btSppUuid         = '00001101-0000-1000-8000-00805f9b34fb';
+  static const Duration btScanTimeout     = Duration(seconds: 4);
+  static const Duration btReconnectDelay  = Duration(seconds: 2);
+
+  // ─── BLUETOOTH LABELS ────────────────────────────────────
+  static const String labelBtScan         = 'SCAN FOR BLUETOOTH DEVICES';
+  static const String labelBtConnect      = 'CONNECT';
+  static const String labelBtSearching    = 'Searching for devices...';
+  static const String labelBtNoDevices    = 'No Bluetooth devices found';
+  static const String labelBtPermission   = 'Bluetooth permission required';
+  static const String labelBtConnected    = 'BT Connected';
+  static const String labelBtDisconnected = 'BT Disconnected';
+  static const String labelBtMacAddress   = 'MAC';
+  static const String labelBtPaired       = 'PAIRED';
+  static const String labelBtConnFailed   = 'BT connection failed';
+  static const String labelBtFoundOne     = 'Found 1 device';
+  static const String labelBtFoundMany    = 'Found {n} devices';
+  static const String labelBtConnected2   = 'CONNECTED';
+
+  // ─── CONNECTION MODE ─────────────────────────────────────
+  static const String modeUsb         = 'USB';
+  static const String modeBluetooth   = 'BLUETOOTH';
+  static const String labelModeToggle = 'CONNECTION MODE';
+  static const String labelGrantAccess = 'GRANT ACCESS';
+
   // ─── USB SCREEN LABELS ───────────────────────────────────
   static const String labelUsbScan        = 'SCAN FOR USB DEVICES';
   static const String labelUsbConnect     = 'CONNECT';
@@ -138,8 +166,9 @@ class AppRes {
   static const String fontPathBold    = 'assets/fonts/JetBrainsMono-Bold.ttf';
 
   // ─── LAYOUT ───────────────────────────────────────────────
-  static const double cameraFeedHeight   = 240.0;
-  static const double detectedRowPadV    = 14.0;
+  static const double cameraFeedHeight = 240.0;
+  static const double detectedRowPadV  = 14.0;
+  static const double badgePadV        = 2.0;
 
   // ─── ANIMATION DURATIONS ─────────────────────────────────
   static const Duration animFast   = Duration(milliseconds: 200);
