@@ -6,6 +6,7 @@ import 'connection_mode_controller.dart';
 import 'nav_controller.dart';
 import 'settings_controller.dart';
 import 'usb_controller.dart';
+import 'camera_controller.dart';
 
 class AppBindings extends Bindings {
   @override
@@ -17,5 +18,6 @@ class AppBindings extends Bindings {
     Get.put(UsbController());
     Get.put(BluetoothController());
     Get.put(ConnectionModeController());
+    Get.put(CameraController());
   }
 }
