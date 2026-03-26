@@ -96,13 +96,18 @@ class AppRes {
   static const String labelNone         = 'None';
 
   // ─── USB SCREEN LABELS ───────────────────────────────────
-  static const String labelUsbScan       = 'SCAN FOR USB DEVICES';
-  static const String labelUsbConnect    = 'CONNECT';
-  static const String labelUsbSearching  = 'Detecting USB devices...';
-  static const String labelUsbNoDevices  = 'No USB devices found';
-  static const String labelUsbPermission = 'USB permission required';
-  static const String labelUsbOtg        = 'Connect Arduino via USB OTG cable';
-  static const String labelUsbBaud       = 'Baud Rate: 9600';
+  static const String labelUsbScan        = 'SCAN FOR USB DEVICES';
+  static const String labelUsbConnect     = 'CONNECT';
+  static const String labelUsbConnected   = 'CONNECTED';
+  static const String labelUsbConnectDev  = 'CONNECT DEVICE';
+  static const String labelUsbSearching   = 'Detecting USB devices...';
+  static const String labelUsbNoDevices   = 'No USB devices found';
+  static const String labelUsbPermission  = 'USB permission required';
+  static const String labelUsbOtg         = 'Connect Arduino via USB OTG cable';
+  static const String labelUsbBaud        = 'Baud Rate: 9600';
+  static const String labelUsbConnFailed  = 'Connection failed';
+  static const String labelUsbFoundOne    = 'Found 1 device';
+  static const String labelUsbDevice      = 'USB Device';
 
   // ─── SETTINGS LABELS ─────────────────────────────────────
   static const String settingsTtsSpeed    = 'TTS Speed';
@@ -131,6 +136,10 @@ class AppRes {
   // ─── ASSETS ──────────────────────────────────────────────
   static const String fontPathRegular = 'assets/fonts/JetBrainsMono-Regular.ttf';
   static const String fontPathBold    = 'assets/fonts/JetBrainsMono-Bold.ttf';
+
+  // ─── LAYOUT ───────────────────────────────────────────────
+  static const double cameraFeedHeight   = 240.0;
+  static const double detectedRowPadV    = 14.0;
 
   // ─── ANIMATION DURATIONS ─────────────────────────────────
   static const Duration animFast   = Duration(milliseconds: 200);

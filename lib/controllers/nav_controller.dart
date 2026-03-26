@@ -7,7 +7,7 @@ enum DetectedObject { none, person, vehicle }
 class NavController extends GetxController {
   final isConnected    = false.obs;
   final isActive       = false.obs;
-  final distances      = [120, 45, 80].obs; // [left, center, right]
+  final distances      = [0, 0, 0].obs; // [left, center, right] — zeroed until USB data arrives
   final detectedObject = DetectedObject.none.obs;
   final guidance       = AppRes.msgPathClear.obs;
   final navLevel       = NavLevel.safe.obs;

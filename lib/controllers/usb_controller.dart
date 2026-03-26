@@ -1,26 +1,24 @@
+import 'dart:async';
 import 'package:get/get.dart';
+import 'package:usb_serial/usb_serial.dart' as usb;
 import '../app_res.dart';
+import '../services/usb_service.dart';
 import 'nav_controller.dart';
 
-class MockUsbDevice {
-  final String name;
-  final int vid;
-  MockUsbDevice(this.name, this.vid);
-}
-
 class UsbController extends GetxController {
-  final isScanning       = false.obs;
-  final permissionDenied = false.obs;
-  final connectedIndex   = (-1).obs;
-  final statusText       = AppRes.labelUsbNoDevices.obs;
+  final _service = Get.find<UsbService>();
 
-  final devices = <MockUsbDevice>[
-    MockUsbDevice('Arduino Uno',   AppRes.vendorArduino),
-    MockUsbDevice('CH340 Module',  AppRes.vendorCH340),
-    MockUsbDevice('CP2102 Dongle', AppRes.vendorCP2102),
-  ].obs;
+  final isScanning     = false.obs;
+  final connectedIndex = (-1).obs;
+  final statusText     = AppRes.labelUsbNoDevices.obs;
+  final devices        = <usb.UsbDevice>[].obs;
 
-  String chipLabel(int vid) {
+  StreamSubscription<List<int>>? _dataSub;
+  StreamSubscription<dynamic>?   _eventSub;
+
+  // ── Chip label helper ─────────────────────────────────────
+
+  String chipLabel(int? vid) {
     switch (vid) {
       case AppRes.vendorCH340:   return 'CH340';
       case AppRes.vendorCP2102:  return 'CP2102';
@@ -30,17 +28,88 @@ class UsbController extends GetxController {
     }
   }
 
+  // ── Scan ──────────────────────────────────────────────────
+
   Future<void> scan() async {
     isScanning.value = true;
     statusText.value = AppRes.labelUsbSearching;
-    await Future.delayed(const Duration(seconds: 2));
+    connectedIndex.value = -1;
+
+    final found = await _service.listDevices();
+    devices.value = found;
     isScanning.value = false;
-    statusText.value = 'Found ${devices.length} devices';
+
+    if (found.isEmpty) {
+      statusText.value = AppRes.labelUsbNoDevices;
+    } else {
+      statusText.value = found.length == 1
+          ? AppRes.labelUsbFoundOne
+          : 'Found ${found.length} devices';
+    }
   }
 
-  void connect(int index) {
+  // ── Connect ───────────────────────────────────────────────
+
+  Future<void> connect(int index) async {
+    final device = devices[index];
+    statusText.value = AppRes.labelUsbSearching;
+
+    final ok = await _service.connect(device);
+    if (!ok) {
+      statusText.value = AppRes.labelUsbConnFailed;
+      return;
+    }
+
     connectedIndex.value = index;
-    statusText.value     = AppRes.labelConnected;
+    statusText.value = AppRes.labelConnected;
     Get.find<NavController>().isConnected.value = true;
+
+    _listenData();
+    _listenEvents();
+  }
+
+  // ── Data stream → NavController ───────────────────────────
+
+  void _listenData() {
+    _dataSub?.cancel();
+    _dataSub = _service.dataStream.listen((distances) {
+      Get.find<NavController>().updateDistances(distances);
+    });
+  }
+
+  // ── USB attach/detach events ──────────────────────────────
+
+  void _listenEvents() {
+    _eventSub?.cancel();
+    _eventSub = usb.UsbSerial.usbEventStream?.listen((event) {
+      if (event.event == usb.UsbEvent.ACTION_USB_DETACHED) {
+        _onDisconnected();
+      }
+    });
+  }
+
+  void _onDisconnected() {
+    _dataSub?.cancel();
+    connectedIndex.value = -1;
+    statusText.value = AppRes.labelDisconnected;
+    Get.find<NavController>().isConnected.value = false;
+    _service.disconnect();
+  }
+
+  // ── Manual disconnect ─────────────────────────────────────
+
+  Future<void> disconnect() async {
+    await _dataSub?.cancel();
+    await _eventSub?.cancel();
+    await _service.disconnect();
+    connectedIndex.value = -1;
+    statusText.value = AppRes.labelDisconnected;
+    Get.find<NavController>().isConnected.value = false;
+  }
+
+  @override
+  void onClose() {
+    disconnect();
+    super.onClose();
   }
 }

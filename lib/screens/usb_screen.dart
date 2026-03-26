@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../app_res.dart';
+import 'package:usb_serial/usb_serial.dart' as usb;
 import '../controllers/usb_controller.dart';
 
 class UsbScreen extends GetView<UsbController> {
@@ -9,7 +10,7 @@ class UsbScreen extends GetView<UsbController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('CONNECT DEVICE')),
+      appBar: AppBar(title: const Text(AppRes.labelUsbConnectDev)),
       body: Column(
         children: [
           // OTG Hint Banner
@@ -48,51 +49,6 @@ class UsbScreen extends GetView<UsbController> {
             ),
           ),
 
-          // Permission Row
-          Obx(() => controller.permissionDenied.value
-              ? Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: AppRes.spaceMD, vertical: AppRes.spaceSM),
-                  color: AppRes.accentCaution.withValues(alpha: 0.15),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.warning_amber,
-                          color: AppRes.accentCaution, size: 18),
-                      const SizedBox(width: AppRes.spaceSM),
-                      const Expanded(
-                        child: Text(
-                          AppRes.labelUsbPermission,
-                          style: TextStyle(
-                            fontFamily: AppRes.fontMono,
-                            fontSize: AppRes.fontSM,
-                            color: AppRes.accentCaution,
-                          ),
-                        ),
-                      ),
-                      OutlinedButton(
-                        onPressed: () =>
-                            controller.permissionDenied.value = false,
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppRes.accentCaution,
-                          side: const BorderSide(color: AppRes.accentCaution),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: AppRes.spaceSM),
-                          minimumSize: const Size(
-                              AppRes.minTouchTarget, AppRes.minTouchTarget),
-                        ),
-                        child: const Text(
-                          'GRANT ACCESS',
-                          style: TextStyle(
-                            fontFamily: AppRes.fontMono,
-                            fontSize: AppRes.fontXS,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : const SizedBox.shrink()),
 
           // Scan Button
           Padding(
@@ -139,15 +95,16 @@ class UsbScreen extends GetView<UsbController> {
             child: Obx(() => ListView.builder(
                   itemCount: controller.devices.length,
                   itemBuilder: (_, i) {
-                    final dev = controller.devices[i];
+                    final usb.UsbDevice dev = controller.devices[i];
                     final isConnected = i == controller.connectedIndex.value;
+                    final name = dev.productName ?? AppRes.labelUsbDevice;
+                    final vid  = dev.vid ?? 0;
                     return Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: AppRes.spaceMD, vertical: AppRes.spaceXS),
                       decoration: BoxDecoration(
                         color: AppRes.bgSurface,
-                        borderRadius:
-                            BorderRadius.circular(AppRes.radiusSM),
+                        borderRadius: BorderRadius.circular(AppRes.radiusSM),
                         border: Border(
                           left: BorderSide(
                             color: isConnected
@@ -159,14 +116,15 @@ class UsbScreen extends GetView<UsbController> {
                       ),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
-                            horizontal: AppRes.spaceMD, vertical: AppRes.spaceXS),
+                            horizontal: AppRes.spaceMD,
+                            vertical: AppRes.spaceXS),
                         leading: isConnected
                             ? const Icon(Icons.lock,
                                 color: AppRes.accentSafe, size: 22)
                             : const Icon(Icons.usb,
                                 color: AppRes.textSecondary, size: 22),
                         title: Text(
-                          dev.name,
+                          name,
                           style: const TextStyle(
                             fontFamily: AppRes.fontMono,
                             fontSize: AppRes.fontMD,
@@ -177,7 +135,7 @@ class UsbScreen extends GetView<UsbController> {
                         subtitle: Row(
                           children: [
                             Text(
-                              'VID: 0x${dev.vid.toRadixString(16).toUpperCase()}',
+                              'VID: 0x${vid.toRadixString(16).toUpperCase().padLeft(4, '0')}',
                               style: const TextStyle(
                                 fontFamily: AppRes.fontMono,
                                 fontSize: AppRes.fontXS,
@@ -187,15 +145,15 @@ class UsbScreen extends GetView<UsbController> {
                             const SizedBox(width: AppRes.spaceSM),
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: AppRes.spaceXS,
-                                  vertical: 2),
+                                  horizontal: AppRes.spaceXS, vertical: 2),
                               decoration: BoxDecoration(
-                                color: AppRes.accentSafe.withValues(alpha: 0.15),
+                                color:
+                                    AppRes.accentSafe.withValues(alpha: 0.15),
                                 borderRadius:
                                     BorderRadius.circular(AppRes.radiusSM),
                               ),
                               child: Text(
-                                controller.chipLabel(dev.vid),
+                                controller.chipLabel(vid),
                                 style: const TextStyle(
                                   fontFamily: AppRes.fontMono,
                                   fontSize: AppRes.fontXS,
@@ -207,7 +165,7 @@ class UsbScreen extends GetView<UsbController> {
                         ),
                         trailing: isConnected
                             ? const Text(
-                                'CONNECTED',
+                                AppRes.labelUsbConnected,
                                 style: TextStyle(
                                   fontFamily: AppRes.fontMono,
                                   fontSize: AppRes.fontXS,

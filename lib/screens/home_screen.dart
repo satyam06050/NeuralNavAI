@@ -100,7 +100,7 @@ class HomeScreen extends GetView<NavController> {
                   padding: const EdgeInsets.symmetric(horizontal: AppRes.spaceMD),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: AppRes.spaceMD, vertical: 14),
+                        horizontal: AppRes.spaceMD, vertical: AppRes.detectedRowPadV),
                     decoration: BoxDecoration(
                       color: AppRes.bgSurface,
                       borderRadius: BorderRadius.circular(AppRes.radiusSM),
@@ -155,7 +155,7 @@ class HomeScreen extends GetView<NavController> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(AppRes.radiusSM),
                     child: Container(
-                      height: 240,
+                      height: AppRes.cameraFeedHeight,
                       color: AppRes.bgSurface,
                       child: Stack(
                         children: [

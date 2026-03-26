@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <usb-device vendor-id="6790" />  <!-- CH340:   0x1A86 -->
+    <usb-device vendor-id="4292" />  <!-- CP2102:  0x10C4 -->
+    <usb-device vendor-id="9025" />  <!-- Arduino: 0x2341 -->
+    <usb-device vendor-id="1027" />  <!-- FTDI:    0x0403 -->
+</resources>
