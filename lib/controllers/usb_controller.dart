@@ -4,27 +4,33 @@ import 'package:usb_serial/usb_serial.dart' as usb;
 import '../app_res.dart';
 import '../services/usb_service.dart';
 import 'nav_controller.dart';
+import '../models/radar_reading.dart';
 
 class UsbController extends GetxController {
   final _service = Get.find<UsbService>();
 
-  final isScanning     = false.obs;
+  final isScanning = false.obs;
   final connectedIndex = (-1).obs;
-  final statusText     = AppRes.labelUsbNoDevices.obs;
-  final devices        = <usb.UsbDevice>[].obs;
+  final statusText = AppRes.labelUsbNoDevices.obs;
+  final devices = <usb.UsbDevice>[].obs;
 
   StreamSubscription<List<int>>? _dataSub;
-  StreamSubscription<dynamic>?   _eventSub;
+  StreamSubscription<dynamic>? _eventSub;
 
   // ── Chip label helper ─────────────────────────────────────
 
   String chipLabel(int? vid) {
     switch (vid) {
-      case AppRes.vendorCH340:   return 'CH340';
-      case AppRes.vendorCP2102:  return 'CP2102';
-      case AppRes.vendorArduino: return 'Arduino';
-      case AppRes.vendorFTDI:    return 'FTDI';
-      default:                   return 'Unknown';
+      case AppRes.vendorCH340:
+        return 'CH340';
+      case AppRes.vendorCP2102:
+        return 'CP2102';
+      case AppRes.vendorArduino:
+        return 'Arduino';
+      case AppRes.vendorFTDI:
+        return 'FTDI';
+      default:
+        return 'Unknown';
     }
   }
 
@@ -75,7 +81,29 @@ class UsbController extends GetxController {
     _dataSub = _service.dataStream.listen((distances) {
       Get.find<NavController>().updateDistances(distances);
     });
+
+    // Listen to radar readings
+    _radarSub?.cancel();
+    _radarSub = _service.radarReadingStream.listen((reading) {
+      Get.find<NavController>().onRadarReading(reading);
+    });
+
+    // Listen to object detections
+    _objectSub?.cancel();
+    _objectSub = _service.objectDetectedStream.listen((objectNum) {
+      Get.find<NavController>().onObjectDetected(objectNum);
+    });
+
+    // Listen to sweep completions
+    _sweepSub?.cancel();
+    _sweepSub = _service.sweepCompleteStream.listen((total) {
+      Get.find<NavController>().onSweepComplete(total);
+    });
   }
+
+  StreamSubscription<RadarReading>? _radarSub;
+  StreamSubscription<int>? _objectSub;
+  StreamSubscription<int>? _sweepSub;
 
   // ── USB attach/detach events ──────────────────────────────
 

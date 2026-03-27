@@ -4,8 +4,10 @@ import 'app_res.dart';
 import 'controllers/app_bindings.dart';
 import 'controllers/connection_mode_controller.dart';
 import 'screens/home_screen.dart';
+import 'screens/data_screen.dart';
 import 'screens/connect_screen.dart';
 import 'screens/settings_screen.dart';
+import 'screens/test_screen.dart';
 
 void main() {
   runApp(const NavAssistApp());
@@ -57,39 +59,52 @@ class _RootNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final idx = 0.obs;
-    final screens = [const HomeScreen(), const ConnectScreen(), const SettingsScreen()];
+    final screens = [
+      const HomeScreen(),
+      const TestScreen(),
+      const DataScreen(),
+      const ConnectScreen(),
+      const SettingsScreen(),
+    ];
 
-    return Obx(() => Scaffold(
-          body: IndexedStack(index: idx.value, children: screens),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: idx.value,
-            onTap: (i) => idx.value = i,
-            items: [
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                activeIcon: Icon(Icons.home),
-                label: AppRes.tabHome,
-              ),
-              BottomNavigationBarItem(
-                icon: Obx(() {
-                  final ctrl = Get.find<ConnectionModeController>();
-                  return Icon(ctrl.isUsb
-                      ? Icons.usb_outlined
-                      : Icons.bluetooth_outlined);
-                }),
-                activeIcon: Obx(() {
-                  final ctrl = Get.find<ConnectionModeController>();
-                  return Icon(ctrl.isUsb ? Icons.usb : Icons.bluetooth);
-                }),
-                label: AppRes.tabConnect,
-              ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.settings_outlined),
-                activeIcon: Icon(Icons.settings),
-                label: AppRes.tabSettings,
-              ),
-            ],
-          ),
-        ));
+    return Obx(
+      () => Scaffold(
+        body: IndexedStack(index: idx.value, children: screens),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: idx.value,
+          onTap: (i) => idx.value = i,
+          items: [
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home),
+              label: AppRes.tabHome,
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.bug_report_outlined),
+              activeIcon: Icon(Icons.bug_report),
+              label: 'TEST',
+            ),
+            BottomNavigationBarItem(
+              icon: Obx(() {
+                final ctrl = Get.find<ConnectionModeController>();
+                return Icon(
+                  ctrl.isUsb ? Icons.usb_outlined : Icons.bluetooth_outlined,
+                );
+              }),
+              activeIcon: Obx(() {
+                final ctrl = Get.find<ConnectionModeController>();
+                return Icon(ctrl.isUsb ? Icons.usb : Icons.bluetooth);
+              }),
+              label: AppRes.tabConnect,
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              activeIcon: Icon(Icons.settings),
+              label: AppRes.tabSettings,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

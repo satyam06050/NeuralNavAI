@@ -10,12 +10,15 @@ import '../controllers/camera_controller.dart';
 import '../widgets/status_banner.dart';
 import '../widgets/distance_card.dart';
 import '../widgets/danger_overlay.dart';
+import '../widgets/radar_scanner.dart';
 
-class HomeScreen extends GetView<NavController> {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<NavController>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppRes.appName),
@@ -165,6 +168,23 @@ class HomeScreen extends GetView<NavController> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: AppRes.spaceMD),
+
+                // Radar Scanner Display
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppRes.spaceMD,
+                  ),
+                  child: Obx(
+                    () => RadarScanner(
+                      readings:
+                          [], // Will be populated from controller when USB connected
+                      currentReading: controller.currentReading.value,
+                      totalObjects: controller.totalObjects.value,
                     ),
                   ),
                 ),
