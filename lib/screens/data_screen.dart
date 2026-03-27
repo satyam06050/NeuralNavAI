@@ -27,8 +27,8 @@ class DataScreen extends StatelessWidget {
               margin: const EdgeInsets.all(AppRes.spaceSM),
               decoration: BoxDecoration(
                 color: isConnected
-                    ? AppRes.accentSafe.withOpacity(0.2)
-                    : AppRes.accentDanger.withOpacity(0.2),
+                    ? AppRes.accentSafe.withValues(alpha: 0.2)
+                    : AppRes.accentDanger.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(AppRes.radiusSM),
               ),
               child: Row(
@@ -447,7 +447,7 @@ class _RadarReadingCard extends StatelessWidget {
         vertical: AppRes.spaceSM,
       ),
       decoration: BoxDecoration(
-        color: statusColor?.withOpacity(0.1),
+        color: statusColor?.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppRes.radiusSM),
         border: statusColor != null
             ? Border.all(color: statusColor, width: 1)

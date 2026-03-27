@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <usb-device vendor-id="6790" />  <!-- CH340:   0x1A86 -->
-    <usb-device vendor-id="4292" />  <!-- CP2102:  0x10C4 -->
-    <usb-device vendor-id="9025" />  <!-- Arduino: 0x2341 -->
-    <usb-device vendor-id="1027" />  <!-- FTDI:    0x0403 -->
+  <!-- FTDI FT232R USB UART (Your device) -->
+  <usb-device vendor-id="1027" product-id="24597" />  <!-- FTDI FT232R -->
+  <usb-device vendor-id="1027" />  <!-- Generic FTDI -->
+  
+  <!-- Arduino Uno / Nano (CH340 chip) -->
+  <usb-device vendor-id="6790" product-id="29987" />
+  <!-- Arduino Uno (ATmega16U2) -->
+  <usb-device vendor-id="9025" product-id="67" />
+  <!-- Generic CDC ACM (covers most Arduinos) -->
+  <usb-device class="2" subclass="2" protocol="1" />
 </resources>

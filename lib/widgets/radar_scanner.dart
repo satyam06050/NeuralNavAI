@@ -1,4 +1,4 @@
-import 'dart:math' as Math;
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../app_res.dart';
 import '../models/radar_reading.dart';
@@ -47,7 +47,7 @@ class RadarScanner extends StatelessWidget {
                   vertical: AppRes.spaceXS,
                 ),
                 decoration: BoxDecoration(
-                  color: AppRes.accentSafe.withOpacity(0.2),
+                  color: AppRes.accentSafe.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(AppRes.radiusSM),
                 ),
                 child: Text(
@@ -82,7 +82,9 @@ class RadarScanner extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppRes.spaceSM),
               decoration: BoxDecoration(
-                color: _getStatusColor(currentReading!.status).withOpacity(0.1),
+                color: _getStatusColor(
+                  currentReading!.status,
+                ).withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppRes.radiusSM),
                 border: Border.all(
                   color: _getStatusColor(currentReading!.status),
@@ -195,8 +197,8 @@ class _RadarPainter extends CustomPainter {
     // Draw angle markers
     for (int angle = 0; angle <= 180; angle += 30) {
       final radian = 3.14 + (angle * 3.14 / 180);
-      final x = centerX + radius * Math.cos(radian);
-      final y = centerY + radius * Math.sin(radian);
+      final x = centerX + radius * math.cos(radian);
+      final y = centerY + radius * math.sin(radian);
 
       final textPainter = TextPainter(
         text: TextSpan(
@@ -217,7 +219,7 @@ class _RadarPainter extends CustomPainter {
     for (int i = 1; i <= 3; i++) {
       final ringRadius = (radius / 3) * i;
       final ringPaint = Paint()
-        ..color = AppRes.textSecondary.withOpacity(0.2)
+        ..color = AppRes.textSecondary.withValues(alpha: 0.2)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1;
 
@@ -238,8 +240,8 @@ class _RadarPainter extends CustomPainter {
       final normalizedDistance = (reading.distance! / 200).clamp(0.0, 1.0);
       final pointRadius = radius * normalizedDistance;
 
-      final x = centerX + pointRadius * Math.cos(radian);
-      final y = centerY + pointRadius * Math.sin(radian);
+      final x = centerX + pointRadius * math.cos(radian);
+      final y = centerY + pointRadius * math.sin(radian);
 
       final dotPaint = Paint()
         ..color = _getStatusColor(reading.status)
@@ -258,8 +260,8 @@ class _RadarPainter extends CustomPainter {
       canvas.drawLine(
         Offset(centerX, centerY),
         Offset(
-          centerX + radius * Math.cos(radian),
-          centerY + radius * Math.sin(radian),
+          centerX + radius * math.cos(radian),
+          centerY + radius * math.sin(radian),
         ),
         linePaint,
       );

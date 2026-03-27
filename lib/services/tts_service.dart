@@ -32,7 +32,7 @@ class TtsService extends GetxService {
 
       _isInitialized = true;
     } catch (e) {
-      print('TTS initialization error: $e');
+      // TTS initialization error handled silently
     }
   }
 
@@ -63,7 +63,7 @@ class TtsService extends GetxService {
     try {
       await _flutterTts.speak(message);
     } catch (e) {
-      print('TTS speak error: $e');
+      // TTS speak error handled silently
       isSpeaking.value = false;
       _speakNext();
     }

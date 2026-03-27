@@ -8,8 +8,11 @@ import 'screens/data_screen.dart';
 import 'screens/connect_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/test_screen.dart';
+import 'screens/arduino_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Services are registered in AppBindings which runs before app starts
   runApp(const NavAssistApp());
 }
 
@@ -61,8 +64,8 @@ class _RootNav extends StatelessWidget {
     final idx = 0.obs;
     final screens = [
       const HomeScreen(),
+      const ArduinoScreen(),
       const TestScreen(),
-      const DataScreen(),
       const ConnectScreen(),
       const SettingsScreen(),
     ];
@@ -78,6 +81,11 @@ class _RootNav extends StatelessWidget {
               icon: Icon(Icons.home_outlined),
               activeIcon: Icon(Icons.home),
               label: AppRes.tabHome,
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.memory_outlined),
+              activeIcon: Icon(Icons.memory),
+              label: 'ARDUINO',
             ),
             const BottomNavigationBarItem(
               icon: Icon(Icons.bug_report_outlined),

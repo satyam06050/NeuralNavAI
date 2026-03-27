@@ -12,7 +12,7 @@ class VibrationService extends GetxService {
 
   Future<void> checkVibrationSupport() async {
     final hasVibrator = await Vibration.hasVibrator();
-    isEnabled.value = hasVibrator ?? false;
+    isEnabled.value = hasVibrator == true;
   }
 
   /// Haptic feedback patterns based on aurdino.md section 7.6
@@ -47,7 +47,7 @@ class VibrationService extends GetxService {
           break;
       }
     } catch (e) {
-      print('Vibration error: $e');
+      // Vibration error handled silently
     }
   }
 

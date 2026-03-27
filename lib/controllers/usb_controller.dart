@@ -57,10 +57,8 @@ class UsbController extends GetxController {
   // ── Connect ───────────────────────────────────────────────
 
   Future<void> connect(int index) async {
-    final device = devices[index];
-    statusText.value = AppRes.labelUsbSearching;
-
-    final ok = await _service.connect(device);
+    // Auto-connect using new simplified API
+    final ok = await _service.connect();
     if (!ok) {
       statusText.value = AppRes.labelUsbConnFailed;
       return;
