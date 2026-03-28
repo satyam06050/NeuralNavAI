@@ -4,6 +4,7 @@ import 'package:usb_serial/usb_serial.dart' as usb;
 import '../app_res.dart';
 import '../services/usb_service.dart';
 import 'nav_controller.dart';
+import 'nav_guide_controller.dart';
 import '../models/radar_reading.dart';
 
 class UsbController extends GetxController {
@@ -67,6 +68,7 @@ class UsbController extends GetxController {
     connectedIndex.value = index;
     statusText.value = AppRes.labelConnected;
     Get.find<NavController>().isConnected.value = true;
+    Get.find<NavGuideController>().updateConnection(true);
 
     _listenData();
     _listenEvents();
@@ -80,10 +82,11 @@ class UsbController extends GetxController {
       Get.find<NavController>().updateDistances(distances);
     });
 
-    // Listen to radar readings
+    // Listen to radar readings - send to both controllers
     _radarSub?.cancel();
     _radarSub = _service.radarReadingStream.listen((reading) {
       Get.find<NavController>().onRadarReading(reading);
+      Get.find<NavGuideController>().onRadarReading(reading);
     });
 
     // Listen to object detections
@@ -92,10 +95,11 @@ class UsbController extends GetxController {
       Get.find<NavController>().onObjectDetected(objectNum);
     });
 
-    // Listen to sweep completions
+    // Listen to sweep completions - send to guide controller
     _sweepSub?.cancel();
     _sweepSub = _service.sweepCompleteStream.listen((total) {
       Get.find<NavController>().onSweepComplete(total);
+      Get.find<NavGuideController>().onSweepComplete(total);
     });
   }
 
@@ -119,6 +123,7 @@ class UsbController extends GetxController {
     connectedIndex.value = -1;
     statusText.value = AppRes.labelDisconnected;
     Get.find<NavController>().isConnected.value = false;
+    Get.find<NavGuideController>().updateConnection(false);
     _service.disconnect();
   }
 

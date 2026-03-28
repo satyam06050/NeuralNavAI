@@ -9,6 +9,7 @@ import 'screens/connect_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/test_screen.dart';
 import 'screens/arduino_screen.dart';
+import 'screens/nav_guide_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,8 +65,9 @@ class _RootNav extends StatelessWidget {
     final idx = 0.obs;
     final screens = [
       const HomeScreen(),
+      const NavGuideScreen(),
       const ArduinoScreen(),
-      const TestScreen(),
+      //const TestScreen(),
       const ConnectScreen(),
       const SettingsScreen(),
     ];
@@ -83,15 +85,20 @@ class _RootNav extends StatelessWidget {
               label: AppRes.tabHome,
             ),
             const BottomNavigationBarItem(
+              icon: Icon(Icons.navigation_outlined),
+              activeIcon: Icon(Icons.navigation),
+              label: 'GUIDE',
+            ),
+            const BottomNavigationBarItem(
               icon: Icon(Icons.memory_outlined),
               activeIcon: Icon(Icons.memory),
               label: 'ARDUINO',
             ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.bug_report_outlined),
-              activeIcon: Icon(Icons.bug_report),
-              label: 'TEST',
-            ),
+            // const BottomNavigationBarItem(
+            //   icon: Icon(Icons.bug_report_outlined),
+            //   activeIcon: Icon(Icons.bug_report),
+            //   label: 'TEST',
+            // ),
             BottomNavigationBarItem(
               icon: Obx(() {
                 final ctrl = Get.find<ConnectionModeController>();

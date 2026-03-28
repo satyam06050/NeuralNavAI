@@ -6,6 +6,7 @@ import '../services/vibration_service.dart';
 import 'bluetooth_controller.dart';
 import 'connection_mode_controller.dart';
 import 'nav_controller.dart';
+import 'nav_guide_controller.dart';
 import 'settings_controller.dart';
 import 'usb_controller.dart';
 import 'camera_controller.dart';
@@ -21,6 +22,7 @@ class AppBindings extends Bindings {
 
     // Controllers
     Get.put(NavController());
+    Get.put(NavGuideController());
     Get.put(SettingsController());
     Get.put(UsbController());
     Get.put(BluetoothController());

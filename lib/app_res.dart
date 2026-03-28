@@ -69,7 +69,8 @@ class AppRes {
   static const int vendorFTDI = 0x0403;
 
   // ─── TTS CONFIG ──────────────────────────────────────────
-  static const double ttsSpeedDefault = 1.0;
+  static const double ttsSpeedDefault =
+      0.7; // Reduced from 1.0 for clearer speech
   static const double ttsVolumeDefault = 1.0;
   static const int ttsCooldownSec = 3;
   static const String ttsLanguage = 'en-US';
