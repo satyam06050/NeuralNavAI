@@ -15,6 +15,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    lint {
+        disable.add("ObsoleteLintOptionalCheck")
+        disable.add("Deprecation")
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }

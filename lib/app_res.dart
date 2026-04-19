@@ -2,35 +2,35 @@ import 'package:flutter/material.dart';
 
 class AppRes {
   // ─── APP INFO ────────────────────────────────────────────
-  static const String appName    = 'NAV ASSIST';
+  static const String appName = 'NAV ASSIST';
   static const String appVersion = '1.0.0';
   static const String appTagline = 'Built for visually impaired navigation';
 
   // ─── ROUTES ──────────────────────────────────────────────
-  static const String routeHome     = '/home';
-  static const String routeUsb      = '/usb';
+  static const String routeHome = '/home';
+  static const String routeConnect = '/connect';
   static const String routeSettings = '/settings';
 
   // ─── COLORS ──────────────────────────────────────────────
-  static const Color bgPrimary     = Color(0xFF0A0A0A);
-  static const Color bgSurface     = Color(0xFF141414);
-  static const Color accentSafe    = Color(0xFF00FF88);
+  static const Color bgPrimary = Color(0xFF0A0A0A);
+  static const Color bgSurface = Color(0xFF141414);
+  static const Color accentSafe = Color(0xFF00FF88);
   static const Color accentCaution = Color(0xFFFFB800);
-  static const Color accentDanger  = Color(0xFFFF3B30);
-  static const Color textPrimary   = Color(0xFFF0F0F0);
+  static const Color accentDanger = Color(0xFFFF3B30);
+  static const Color textPrimary = Color(0xFFF0F0F0);
   static const Color textSecondary = Color(0xFF666666);
-  static const Color borderColor   = Color(0xFF2A2A2A);
-  static const Color overlayRed    = Color(0xD9FF3B30);
+  static const Color borderColor = Color(0xFF2A2A2A);
+  static const Color overlayRed = Color(0xD9FF3B30);
 
   // ─── FONTS ───────────────────────────────────────────────
   static const String fontMono = 'JetBrainsMono';
 
   // ─── FONT SIZES ──────────────────────────────────────────
-  static const double fontXS  = 11.0;
-  static const double fontSM  = 14.0;
-  static const double fontMD  = 16.0;
-  static const double fontLG  = 20.0;
-  static const double fontXL  = 28.0;
+  static const double fontXS = 11.0;
+  static const double fontSM = 14.0;
+  static const double fontMD = 16.0;
+  static const double fontLG = 20.0;
+  static const double fontXL = 28.0;
   static const double fontXXL = 40.0;
 
   // ─── SPACING ─────────────────────────────────────────────
@@ -49,102 +49,136 @@ class AppRes {
   static const double minTouchTarget = 48.0;
 
   // ─── SENSOR THRESHOLDS (cm) ──────────────────────────────
-  static const int thresholdDanger  = 40;
+  static const int thresholdDanger = 40;
   static const int thresholdCaution = 80;
-  static const int maxDistance      = 200;
+  static const int maxDistance = 200;
+  static const int detectionThreshold = 150; // From Arduino config
+  static const int closeAlertRange = 50; // From Arduino config
+  static const int angleStep = 5; // From Arduino config (0-180 degrees)
 
   // ─── USB CONFIG ──────────────────────────────────────────
-  static const int    usbBaudRate   = 9600;
-  static const int    usbDataBits   = 8;
-  static const int    usbStopBits   = 1;
+  static const int usbBaudRate = 9600;
+  static const int usbDataBits = 8;
+  static const int usbStopBits = 1;
   static const String usbParseDelim = ',';
 
   // ─── VENDOR IDs ──────────────────────────────────────────
-  static const int vendorCH340   = 0x1A86;
-  static const int vendorCP2102  = 0x10C4;
+  static const int vendorCH340 = 0x1A86;
+  static const int vendorCP2102 = 0x10C4;
   static const int vendorArduino = 0x2341;
-  static const int vendorFTDI    = 0x0403;
+  static const int vendorFTDI = 0x0403;
 
   // ─── TTS CONFIG ──────────────────────────────────────────
-  static const double ttsSpeedDefault  = 1.0;
+  static const double ttsSpeedDefault =
+      0.7; // Reduced from 1.0 for clearer speech
   static const double ttsVolumeDefault = 1.0;
-  static const int    ttsCooldownSec   = 3;
-  static const String ttsLanguage      = 'en-US';
+  static const int ttsCooldownSec = 3;
+  static const String ttsLanguage = 'en-US';
 
   // ─── GUIDANCE MESSAGES ───────────────────────────────────
-  static const String msgPathClear     = 'PATH CLEAR';
-  static const String msgMoveLeft      = 'MOVE LEFT';
-  static const String msgMoveRight     = 'MOVE RIGHT';
+  static const String msgPathClear = 'PATH CLEAR';
+  static const String msgMoveLeft = 'MOVE LEFT';
+  static const String msgMoveRight = 'MOVE RIGHT';
   static const String msgObstacleAhead = 'OBSTACLE AHEAD';
-  static const String msgSlowDown      = 'CAUTION, SLOW DOWN';
-  static const String msgPersonAhead   = 'PERSON AHEAD, MOVE LEFT';
-  static const String msgStopNow       = 'STOP IMMEDIATELY';
-  static const String msgDangerAhead   = 'DANGER AHEAD';
+  static const String msgSlowDown = 'CAUTION, SLOW DOWN';
+  static const String msgPersonAhead = 'PERSON AHEAD, MOVE LEFT';
+  static const String msgStopNow = 'STOP IMMEDIATELY';
+  static const String msgDangerAhead = 'DANGER AHEAD';
 
   // ─── UI LABELS ───────────────────────────────────────────
-  static const String labelLeft         = 'LEFT';
-  static const String labelCenter       = 'CENTER';
-  static const String labelRight        = 'RIGHT';
-  static const String labelDetected     = 'DETECTED OBJECT';
-  static const String labelLiveFeed     = 'LIVE FEED';
-  static const String labelScanning     = 'SCANNING...';
-  static const String labelConnected    = 'USB Connected';
+  static const String labelLeft = 'LEFT';
+  static const String labelCenter = 'CENTER';
+  static const String labelRight = 'RIGHT';
+  static const String labelDetected = 'DETECTED OBJECT';
+  static const String labelLiveFeed = 'LIVE FEED';
+  static const String labelScanning = 'SCANNING...';
+  static const String labelConnected = 'USB Connected';
   static const String labelDisconnected = 'USB Disconnected';
-  static const String labelStart        = 'START';
-  static const String labelStop         = 'STOP';
-  static const String labelWaiting      = 'Waiting for data...';
-  static const String labelNone         = 'None';
+  static const String labelStart = 'START';
+  static const String labelStop = 'STOP';
+  static const String labelWaiting = 'Waiting for data...';
+  static const String labelNone = 'None';
+
+  // ─── BLUETOOTH CONFIG ────────────────────────────────────
+  static const String btDeviceName = 'HC-05';
+  static const String btParseDelim = ',';
+  static const String btSppUuid = '00001101-0000-1000-8000-00805f9b34fb';
+  static const Duration btScanTimeout = Duration(seconds: 4);
+  static const Duration btReconnectDelay = Duration(seconds: 2);
+
+  // ─── BLUETOOTH LABELS ────────────────────────────────────
+  static const String labelBtScan = 'SCAN FOR BLUETOOTH DEVICES';
+  static const String labelBtConnect = 'CONNECT';
+  static const String labelBtSearching = 'Searching for devices...';
+  static const String labelBtNoDevices = 'No Bluetooth devices found';
+  static const String labelBtPermission = 'Bluetooth permission required';
+  static const String labelBtConnected = 'BT Connected';
+  static const String labelBtDisconnected = 'BT Disconnected';
+  static const String labelBtMacAddress = 'MAC';
+  static const String labelBtPaired = 'PAIRED';
+  static const String labelBtConnFailed = 'BT connection failed';
+  static const String labelBtFoundOne = 'Found 1 device';
+  static const String labelBtFoundMany = 'Found {n} devices';
+  static const String labelBtConnected2 = 'CONNECTED';
+
+  // ─── CONNECTION MODE ─────────────────────────────────────
+  static const String modeUsb = 'USB';
+  static const String modeBluetooth = 'BLUETOOTH';
+  static const String labelModeToggle = 'CONNECTION MODE';
+  static const String labelGrantAccess = 'GRANT ACCESS';
 
   // ─── USB SCREEN LABELS ───────────────────────────────────
-  static const String labelUsbScan        = 'SCAN FOR USB DEVICES';
-  static const String labelUsbConnect     = 'CONNECT';
-  static const String labelUsbConnected   = 'CONNECTED';
-  static const String labelUsbConnectDev  = 'CONNECT DEVICE';
-  static const String labelUsbSearching   = 'Detecting USB devices...';
-  static const String labelUsbNoDevices   = 'No USB devices found';
-  static const String labelUsbPermission  = 'USB permission required';
-  static const String labelUsbOtg         = 'Connect Arduino via USB OTG cable';
-  static const String labelUsbBaud        = 'Baud Rate: 9600';
-  static const String labelUsbConnFailed  = 'Connection failed';
-  static const String labelUsbFoundOne    = 'Found 1 device';
-  static const String labelUsbDevice      = 'USB Device';
+  static const String labelUsbScan = 'SCAN FOR USB DEVICES';
+  static const String labelUsbConnect = 'CONNECT';
+  static const String labelUsbConnected = 'CONNECTED';
+  static const String labelUsbConnectDev = 'CONNECT DEVICE';
+  static const String labelUsbSearching = 'Detecting USB devices...';
+  static const String labelUsbNoDevices = 'No USB devices found';
+  static const String labelUsbPermission = 'USB permission required';
+  static const String labelUsbOtg = 'Connect Arduino via USB OTG cable';
+  static const String labelUsbBaud = 'Baud Rate: 9600';
+  static const String labelUsbConnFailed = 'Connection failed';
+  static const String labelUsbFoundOne = 'Found 1 device';
+  static const String labelUsbDevice = 'USB Device';
 
   // ─── SETTINGS LABELS ─────────────────────────────────────
-  static const String settingsTtsSpeed    = 'TTS Speed';
-  static const String settingsTtsVolume   = 'TTS Volume';
-  static const String settingsRepeatMsg   = 'Repeat same message';
-  static const String settingsCooldown    = 'Min gap between messages (sec)';
-  static const String settingsDangerDist  = 'Danger distance (cm)';
+  static const String settingsTtsSpeed = 'TTS Speed';
+  static const String settingsTtsVolume = 'TTS Volume';
+  static const String settingsRepeatMsg = 'Repeat same message';
+  static const String settingsCooldown = 'Min gap between messages (sec)';
+  static const String settingsDangerDist = 'Danger distance (cm)';
   static const String settingsCautionDist = 'Caution distance (cm)';
-  static const String settingsVibration   = 'Vibration enabled';
-  static const String settingsCamera      = 'Camera detection enabled';
-  static const String settingsVoice       = 'Voice Settings';
-  static const String settingsThreshold   = 'Threshold Settings';
-  static const String settingsFeedback    = 'Feedback';
-  static const String settingsAbout       = 'About';
+  static const String settingsVibration = 'Vibration enabled';
+  static const String settingsCamera = 'Camera detection enabled';
+  static const String settingsVoice = 'Voice Settings';
+  static const String settingsThreshold = 'Threshold Settings';
+  static const String settingsFeedback = 'Feedback';
+  static const String settingsAbout = 'About';
 
   // ─── DETECTED OBJECT LABELS ──────────────────────────────
-  static const String objPerson  = 'Person';
+  static const String objPerson = 'Person';
   static const String objVehicle = 'Vehicle';
-  static const String objNone    = 'None';
+  static const String objNone = 'None';
 
   // ─── NAV TABS ────────────────────────────────────────────
-  static const String tabHome     = 'Home';
-  static const String tabConnect  = 'Connect';
+  static const String tabHome = 'Home';
+  static const String tabConnect = 'Connect';
   static const String tabSettings = 'Settings';
 
   // ─── ASSETS ──────────────────────────────────────────────
-  static const String fontPathRegular = 'assets/fonts/JetBrainsMono-Regular.ttf';
-  static const String fontPathBold    = 'assets/fonts/JetBrainsMono-Bold.ttf';
+  static const String fontPathRegular =
+      'assets/fonts/JetBrainsMono-Regular.ttf';
+  static const String fontPathBold = 'assets/fonts/JetBrainsMono-Bold.ttf';
 
   // ─── LAYOUT ───────────────────────────────────────────────
-  static const double cameraFeedHeight   = 240.0;
-  static const double detectedRowPadV    = 14.0;
+  static const double cameraFeedHeight = 240.0;
+  static const double detectedRowPadV = 14.0;
+  static const double badgePadV = 2.0;
 
   // ─── ANIMATION DURATIONS ─────────────────────────────────
-  static const Duration animFast   = Duration(milliseconds: 200);
+  static const Duration animFast = Duration(milliseconds: 200);
   static const Duration animNormal = Duration(milliseconds: 300);
-  static const Duration animPulse  = Duration(milliseconds: 800);
+  static const Duration animPulse = Duration(milliseconds: 800);
 
   // ─── FUSION INTERVAL ─────────────────────────────────────
   static const Duration fusionTick = Duration(milliseconds: 500);
